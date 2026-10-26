@@ -1,0 +1,32 @@
+name: TCMB kurlarini guncelle
+
+on:
+  schedule:
+    - cron: "50 12 * * 1-5"   # her iş günü 15:50 (Türkiye saati), TCMB 15:30'da yayımlar
+    - cron: "30 6 * * 1-5"    # sabah yedek kontrol
+  workflow_dispatch:
+    inputs:
+      baslangic:
+        description: "İlk kurulumda doldurulacak başlangıç tarihi (YYYY-AA-GG). Boş bırakılırsa son 10 gün."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  guncelle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Kurlari cek
+        run: python scripts/kurlari_guncelle.py ${{ github.event.inputs.baslangic }}
+      - name: Degisiklikleri kaydet
+        run: |
+          git config user.name "kur-botu"
+          git config user.email "kur-botu@users.noreply.github.com"
+          git add kurlar
+          git diff --cached --quiet || (git commit -m "TCMB kurlari $(date +%F)" && git push)
