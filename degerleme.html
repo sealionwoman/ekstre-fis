@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dönem Sonu Kur Değerlemesi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1C2733; --soft:#55626F; --paper:#FFFFFF; --wash:#EEF2F6; --line:#D5DCE4;
+  --accent:#1D5C96; --accent-ink:#FFFFFF; --ok:#1E7B4E; --warn:#9A5806; --bad:#B42318;
+  --okbg:#E7F4EC; --warnbg:#FCF1E2; --badbg:#FCE9E7;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#E6EBF1; --soft:#A3AEBA; --paper:#141A21; --wash:#1C242D; --line:#2E3946;
+    --accent:#6EA8E0; --accent-ink:#0E1620; --ok:#4CC38A; --warn:#E0A040; --bad:#F07067;
+    --okbg:#13291F; --warnbg:#2B2112; --badbg:#2E1616; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#E6EBF1; --soft:#A3AEBA; --paper:#141A21; --wash:#1C242D; --line:#2E3946;
+  --accent:#6EA8E0; --accent-ink:#0E1620; --ok:#4CC38A; --warn:#E0A040; --bad:#F07067;
+  --okbg:#13291F; --warnbg:#2B2112; --badbg:#2E1616; color-scheme: dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px;line-height:1.5}
+main{max-width:980px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:30px;line-height:1.2;font-weight:600;margin:0 0 8px;letter-spacing:-0.01em}
+.lead{color:var(--soft);max-width:62ch;margin:0 0 28px}
+h2{font-size:19px;font-weight:600;margin:0 0 4px}
+.sub{color:var(--soft);font-size:14px;margin:0 0 16px}
+section{margin-top:40px}
+.num{font-variant-numeric:tabular-nums}
+
+
+.msg{border-radius:10px;padding:12px 14px;margin-top:14px;font-size:15px}
+.msg.bad{background:var(--badbg);color:var(--bad)} .msg.ok{background:var(--okbg);color:var(--ok)} .msg.warn{background:var(--warnbg);color:var(--warn)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-top:14px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:760px}
+th,td{padding:7px 9px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-weight:500;color:var(--soft);background:var(--wash)}
+td.r,th.r{text-align:right}
+input,select{font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:6px 8px;width:100%}
+input.hata{border-color:var(--bad);outline:2px solid var(--bad)}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 20px}
+.form label{display:flex;flex-direction:column;gap:5px;font-size:14px;color:var(--soft)}
+.hint{font-size:13px;color:var(--soft);margin-top:4px}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px}
+button.primary{font:inherit;font-weight:600;font-size:16px;background:var(--accent);color:var(--accent-ink);border:none;border-radius:10px;padding:11px 20px;cursor:pointer}
+button.ghost{font:inherit;font-size:15px;background:none;color:var(--accent);border:1px solid var(--line);border-radius:10px;padding:9px 14px;cursor:pointer}
+button.x{font:inherit;background:none;border:none;color:var(--soft);cursor:pointer;font-size:18px;padding:2px 6px}
+textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;font-variant-numeric:tabular-nums}
+a{color:var(--accent)}
+footer{margin-top:48px;font-size:13px;color:var(--soft);border-top:1px solid var(--line);padding-top:14px}
+@media print{ .noprint{display:none !important} body{background:#fff;color:#000} main{max-width:none;padding:0} .tablewrap{border:none} table{min-width:0;font-size:11px} @page{size:A4 portrait;margin:12mm} }
+</style>
+</head>
+<body>
+<main>
+  <p class="noprint" style="margin:0 0 18px"><a href="./">← Ekstreden masraf fişine dön</a></p>
+  <h1>Dönem sonu kur değerlemesi</h1>
+  <p class="lead noprint">Mizandaki dövizli hesapların döviz ve TL bakiyesini girin; TCMB döviz alış kuruyla değerleme yapılır ve 646 / 656 fişi hazırlanır. Döviz bakiyesi sıfır olan hesapta kalan TL bakiye (ör. ödeme sonrası) kur farkı olarak kapatılır.</p>
+
+  <section class="noprint">
+    <div class="form">
+      <label>Değerleme tarihi<input type="date" id="tarih"><span class="hint">Zorunlu: 31.03, 30.06, 30.09 (geçici vergi) ve 31.12 (yıl sonu).</span></label>
+      <label>Kur türü<select id="kurTuru"><option value="0">Döviz alış (VUK 280)</option><option value="1">Döviz satış</option></select></label>
+      <label>Kambiyo kârı hesabı<input type="text" id="kar" value="646"></label>
+      <label>Kambiyo zararı hesabı<input type="text" id="zarar" value="656"></label>
+      <label>Fiş no<input type="text" id="fisNo" autocomplete="off"><span class="hint">Ana sayfadaki numaralandırmayla ortak; indirince ilerler.</span></label>
+    </div>
+    <div id="kurDurum"></div>
+  </section>
+
+  <section>
+    <h2 class="noprint">Hesaplar</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th style="width:120px">Hesap kodu</th><th>Hesap adı</th><th style="width:80px">Döviz</th><th class="r" style="width:120px">Döviz bakiye</th><th class="r" style="width:130px">TL bakiye</th><th style="width:95px">Bakiye yönü</th><th class="r">Kur</th><th class="r">Değerlenmiş TL</th><th class="r">Fark</th><th class="noprint"></th></tr></thead>
+      <tbody id="satirlar"></tbody>
+    </table></div>
+    <div class="actions noprint">
+      <button class="ghost" id="ekle">+ Satır ekle</button>
+      <details style="flex-basis:100%"><summary class="hint" style="cursor:pointer">Mizandan yapıştır</summary>
+        <p class="hint">Mizandan şu sırayla kopyalayın: Hesap kodu, Hesap adı, Döviz cinsi, Döviz bakiye, TL bakiye, Yön (B/A). Yön boşsa koda göre tahmin edilir (1-2 grup borç, 3-4 grup alacak).</p>
+        <textarea id="yapistir" rows="4" placeholder="309.1.005&#9;Garanti Kart USD&#9;USD&#9;912,80&#9;40.181,85&#9;A"></textarea>
+        <div class="actions"><button class="ghost" id="yapistirUygula">Ekle</button></div>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <h2>Değerleme fişi</h2>
+    <p class="hint" id="fisBaslik"></p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Fiş No</th><th>Tarih</th><th>Hesap Kodu</th><th>Hesap Adı</th><th>Açıklama</th><th class="r">Borç</th><th class="r">Alacak</th></tr></thead>
+      <tbody id="fis"></tbody>
+    </table></div>
+    <div id="fisDurum"></div>
+    <div class="actions noprint">
+      <button class="primary" id="csv">Aktarım dosyası (CSV)</button>
+      <button class="ghost" id="yazdir">Yazdır (A4)</button>
+      <span class="hint" id="msg" role="status"></span>
+    </div>
+  </section>
+  <footer class="noprint">Kurlar TCMB gösterge niteliğindeki kurlar arşivinden alınır. Değerleme kur farkları üzerinden KDV hesaplanmaz. Hesap ve tutarları mizanınızla kontrol edin.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const LS="ekstreFis.v1.";
+const lsGet=(k,d)=>{ try{const v=localStorage.getItem(LS+k); return v?JSON.parse(v):d;}catch(e){return d;} };
+const lsSet=(k,v)=>{ try{localStorage.setItem(LS+k,JSON.stringify(v));}catch(e){} };
+const fmt=n=>n.toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const sayi=t=>{ t=String(t).trim().replace(/\s/g,""); if(!t) return NaN;
+  if(t.includes(",")&&t.includes(".")) t = t.lastIndexOf(",")>t.lastIndexOf(".") ? t.replace(/\./g,"").replace(",",".") : t.replace(/,/g,"");
+  else if(t.includes(",")) t=t.replace(",","."); return parseFloat(t); };
+const hesapGecerli=k=>/^\d{3}([.\-]\d{1,4}){0,3}$/.test(String(k).trim());
+const AD={"102":"Bankalar","120":"Alıcılar","131":"Ortaklardan Alacaklar","136":"Diğer Çeşitli Alacaklar","159":"Verilen Sipariş Avansları","195":"İş Avansları",
+  "300":"Banka Kredileri","309":"Diğer Mali Borçlar","320":"Satıcılar","331":"Ortaklara Borçlar","336":"Diğer Çeşitli Borçlar","340":"Alınan Sipariş Avansları",
+  "400":"Banka Kredileri","646":"Kambiyo Kârları","656":"Kambiyo Zararları"};
+const adlar=lsGet("adlar",{});
+const adOf=k=>adlar[k]||AD[String(k).slice(0,3)]||"";
+const tarihTR=s=>s.split("-").reverse().join(".");
+let ARSIV={}, satirlar=lsGet("degerleme.satirlar",[]);
+
+function sonCeyrekSonu(){ const d=new Date(); const y=d.getFullYear();
+  const s=[[y,3,31],[y,6,30],[y,9,30],[y,12,31]].map(([a,b,c])=>new Date(Date.UTC(a,b-1,c))).filter(x=>x<=d);
+  const t=s.length?s[s.length-1]:new Date(Date.UTC(y-1,11,31)); return t.toISOString().slice(0,10); }
+$("tarih").value=lsGet("degerleme.tarih",null)||sonCeyrekSonu();
+["kar","zarar"].forEach(id=>{ const v=lsGet("degerleme."+id,null); if(v) $(id).value=v; $(id).addEventListener("input",()=>{ lsSet("degerleme."+id,$(id).value.trim()); ciz(); }); });
+{ const on=lsGet("noOnek",""), si=lsGet("noSira","1"); $("fisNo").value=(on||"")+(si||"1"); }
+
+async function arsiv(y){ if(ARSIV[y]) return ARSIV[y];
+  try{ const r=await fetch("kurlar/"+y+".json",{cache:"no-cache"}); if(!r.ok) throw 0; ARSIV[y]=await r.json(); }catch(e){ ARSIV[y]={}; }
+  return ARSIV[y]; }
+async function kurBul(pb){
+  if(pb==="TRY") return {kur:1, gun:$("tarih").value};
+  let d=new Date($("tarih").value+"T00:00:00Z"); const ix=Number($("kurTuru").value);
+  for(let i=0;i<12;i++){ const k=d.toISOString().slice(0,10); const a=await arsiv(d.getUTCFullYear());
+    if(a[k] && a[k][pb]) return {kur:a[k][pb][ix], gun:k}; d=new Date(d-86400000); }
+  return null;
+}
+function yonTahmin(k){ const c=String(k).trim()[0]; return (c==="3"||c==="4")?"A":"B"; }
+function kaydet(){ lsSet("degerleme.satirlar",satirlar); }
+function satirEkle(s){ satirlar.push(Object.assign({kod:"",ad:"",pb:"USD",doviz:"",tl:"",yon:""},s||{})); kaydet(); ciz(); }
+
+async function ciz(){
+  const tb=$("satirlar"); tb.innerHTML="";
+  const sonuc=[]; let kurMsg=new Set(), eksik=false;
+  for(const [i,s] of satirlar.entries()){
+    const tr=document.createElement("tr");
+    const inp=(alan,ph,cls,stil)=>{ const x=document.createElement("input"); x.value=s[alan]; if(ph) x.placeholder=ph; if(stil) x.style.cssText=stil;
+      x.addEventListener("change",()=>{ s[alan]=x.value.trim(); if(alan==="kod"){ if(!s.ad) s.ad=adOf(s.kod); if(!s.yon) s.yon=yonTahmin(s.kod); } kaydet(); ciz(); });
+      const td=document.createElement("td"); if(cls) td.className=cls; td.append(x); return [td,x]; };
+    const [t1,k1]=inp("kod","309.01"); k1.classList.toggle("hata", !!s.kod && !hesapGecerli(s.kod));
+    const [t2]=inp("ad","Hesap adı"); const [t3]=inp("pb","USD",null,"text-transform:uppercase");
+    const [t4]=inp("doviz","0,00","r","text-align:right"); const [t5]=inp("tl","0,00","r","text-align:right");
+    const yon=document.createElement("select"); [["B","Borç"],["A","Alacak"]].forEach(([v,t])=>{const o=document.createElement("option"); o.value=v; o.textContent=t; yon.append(o);});
+    yon.value=s.yon||yonTahmin(s.kod); yon.addEventListener("change",()=>{ s.yon=yon.value; kaydet(); ciz(); });
+    const t6=document.createElement("td"); t6.append(yon);
+    const pb=String(s.pb||"").toUpperCase(), dv=sayi(s.doviz||"0"), tl=sayi(s.tl||"0");
+    const k = await kurBul(pb);
+    const tK=document.createElement("td"), tY=document.createElement("td"), tF=document.createElement("td"); [tK,tY,tF].forEach(x=>x.className="r num");
+    if(k && !isNaN(dv) && !isNaN(tl) && hesapGecerli(s.kod)){
+      const yeni=Math.round(dv*k.kur*100)/100, fark=Math.round((yeni-tl)*100)/100;
+      tK.textContent=pb==="TRY"?"-":k.kur.toFixed(4); tY.textContent=fmt(yeni); tF.textContent=fmt(fark);
+      if(pb!=="TRY") kurMsg.add(pb+" "+k.kur.toFixed(4)+" ("+tarihTR(k.gun)+")");
+      sonuc.push({kod:s.kod, ad:s.ad||adOf(s.kod), pb, dv, tl, yeni, fark, yon:s.yon||yonTahmin(s.kod)});
+    } else { tK.textContent=k?"":"kur yok"; if(!k) eksik=true; }
+    const sil=document.createElement("button"); sil.className="x"; sil.textContent="×"; sil.setAttribute("aria-label","Satırı sil");
+    sil.addEventListener("click",()=>{ satirlar.splice(i,1); kaydet(); ciz(); });
+    const tS=document.createElement("td"); tS.className="noprint"; tS.append(sil);
+    tr.append(t1,t2,t3,t4,t5,t6,tK,tY,tF,tS); tb.append(tr);
+  }
+  $("kurDurum").innerHTML="";
+  if(kurMsg.size||eksik){ const m=document.createElement("div"); m.className="msg "+(eksik?"warn":"ok");
+    m.textContent=(kurMsg.size?"Kullanılan TCMB kuru: "+[...kurMsg].join(", ")+". ":"")+(eksik?"Bazı satırlar için kur bulunamadı (tarih veya döviz cinsini kontrol edin).":""); $("kurDurum").append(m); }
+  fisCiz(sonuc);
+}
+
+let FIS=[];
+function fisCiz(sonuc){
+  const kar=$("kar").value.trim()||"646", zarar=$("zarar").value.trim()||"656", t=$("tarih").value, no=$("fisNo").value.trim();
+  const acik="Dönem sonu kur değerlemesi "+tarihTR(t);
+  FIS=[]; let karT=0, zararT=0;
+  sonuc.filter(x=>x.fark!==0).forEach(x=>{
+    const ac = acik+" — "+x.pb+" "+fmt(x.dv)+(x.dv===0?" (bakiye sıfır, kalan TL kapatıldı)":"");
+    // Borç yönlü (aktif) hesap: fark>0 kâr; Alacak yönlü (pasif) hesap: fark>0 zarar
+    const kazanc = x.yon==="B" ? x.fark>0 : x.fark<0, m=Math.abs(x.fark);
+    const hesapBorc = (x.yon==="B" && x.fark>0) || (x.yon==="A" && x.fark<0);
+    FIS.push({kod:x.kod, ad:x.ad, ac, b: hesapBorc?m:0, a: hesapBorc?0:m});
+    if(kazanc) karT+=m; else zararT+=m;
+  });
+  if(zararT) FIS.push({kod:zarar, ad:adOf(zarar)||"Kambiyo Zararları", ac:acik, b:Math.round(zararT*100)/100, a:0});
+  if(karT) FIS.push({kod:kar, ad:adOf(kar)||"Kambiyo Kârları", ac:acik, b:0, a:Math.round(karT*100)/100});
+  const tb=$("fis"); tb.innerHTML="";
+  FIS.forEach(f=>{ const tr=document.createElement("tr");
+    [no,tarihTR(t),f.kod,f.ad,f.ac,f.b?fmt(f.b):"",f.a?fmt(f.a):""].forEach((v,i)=>{ const td=document.createElement("td"); td.textContent=v; if(i>4) td.className="r num"; tr.append(td); });
+    tb.append(tr); });
+  const B=FIS.reduce((s,f)=>s+f.b,0), A=FIS.reduce((s,f)=>s+f.a,0);
+  $("fisBaslik").textContent=FIS.length ? "Fiş "+no+", "+tarihTR(t)+" tarihli. Belge tipi: Diğer, açıklama: Kur farkı hesaplama tablosu." : "";
+  $("fisDurum").innerHTML=""; const m=document.createElement("div");
+  m.className="msg "+(FIS.length? (Math.round((B-A)*100)===0?"ok":"bad") : "warn");
+  m.textContent = !FIS.length ? "Değerleme farkı yok ya da henüz hesap girilmedi." :
+    (Math.round((B-A)*100)===0 ? "✔ Fiş denk: "+fmt(B)+" TL. Net "+(karT>=zararT?"kâr ":"zarar ")+fmt(Math.abs(karT-zararT))+" TL." : "✘ Fiş denk değil.");
+  $("fisDurum").append(m);
+}
+
+$("ekle").addEventListener("click",()=>satirEkle());
+$("tarih").addEventListener("change",()=>{ lsSet("degerleme.tarih",$("tarih").value); ciz(); });
+$("kurTuru").addEventListener("change",ciz);
+$("fisNo").addEventListener("input",ciz);
+$("yapistirUygula").addEventListener("click",()=>{
+  $("yapistir").value.split(/\r?\n/).map(l=>l.split(/\t|;/)).filter(p=>p[0]&&hesapGecerli(p[0])).forEach(p=>{
+    satirlar.push({kod:p[0].trim(), ad:(p[1]||"").trim()||adOf(p[0]), pb:(p[2]||"USD").trim().toUpperCase(), doviz:(p[3]||"").trim(), tl:(p[4]||"").trim(),
+      yon:/^a/i.test((p[5]||"").trim())?"A":(/^b/i.test((p[5]||"").trim())?"B":yonTahmin(p[0]))}); });
+  $("yapistir").value=""; kaydet(); ciz();
+});
+$("yazdir").addEventListener("click",()=>window.print());
+$("csv").addEventListener("click",()=>{
+  if(!FIS.length){ $("msg").textContent="Fişte satır yok."; return; }
+  const n2=v=>v?(Math.round(v*100)/100).toFixed(2).replace(".",","):"", q=v=>{v=String(v); return /[;"\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;};
+  const no=$("fisNo").value.trim(), t=tarihTR($("tarih").value);
+  const rows=[["FisNo","FisTarihi","HesapKodu","HesapAdi","Aciklama","Borc","Alacak","DovizCinsi","DovizTutar","Kur","BelgeTipi","BelgeAciklamasi","BelgeNo","BelgeTarihi"]];
+  FIS.forEach(f=>rows.push([no,t,f.kod,f.ad,f.ac,n2(f.b),n2(f.a),"","","","Diğer","Kur farkı hesaplama tablosu",no,t]));
+  const blob=new Blob(["\uFEFF"+rows.map(r=>r.map(q).join(";")).join("\r\n")+"\r\n"],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Kur_Degerleme_"+$("tarih").value+".csv"; document.body.append(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);
+  // ortak numaralandırmayı ilerlet (sadece ana sayfanın sıradaki numarası bu fiş numarasıysa)
+  const on=lsGet("noOnek",""), si=lsGet("noSira","1");
+  if(no===(on||"")+(si||"1") && /^\d+$/.test(si||"1")){ const yeni=String(parseInt(si,10)+1).padStart((si||"1").length,"0"); lsSet("noSira",yeni); $("msg").textContent="İndirildi. Sıradaki fiş no: "+(on||"")+yeni; }
+  else $("msg").textContent="İndirildi.";
+});
+if(!satirlar.length) satirEkle({}); else ciz();
+</script>
+</body>
+</html>
